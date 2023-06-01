@@ -180,13 +180,7 @@ public class SchoolController {
 	@DeleteMapping("students/{studentId}")
 	public ResponseEntity<Student> deleteStudent(@PathVariable String studentId) {
 		Student student = getStudent(studentId);
-		/**
-		 * Remove the student from every course he/she enrolled in.
-		 */
-		for (Course course : student.getCourseSet()) {
-			course.getStudentSet().remove(student);
-			courseRepository.save(course);
-		}
+		student.removeAllCourses((course) -> courseRepository.save(course));
 		studentRepository.delete(student);
 		return ResponseEntity.noContent().build();
 	}
@@ -194,13 +188,7 @@ public class SchoolController {
 	@DeleteMapping("courses/{id}")
 	public ResponseEntity<Course> deleteCourse(@PathVariable int id) {
 		Course course = getCourse(id);
-		/**
-		 * Remove the course from every student that has the course scheduled.
-		 */
-		for (Student student : course.getStudentSet()) {
-			student.getCourseSet().remove(course);
-			studentRepository.save(student);
-		}
+		course.removeAllStudents((student) -> studentRepository.save(student));
 		courseRepository.delete(course);
 		return ResponseEntity.noContent().build();
 	}

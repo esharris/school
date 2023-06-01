@@ -1,6 +1,7 @@
 package com.earl.school.entities;
 
 import java.util.Set;
+import java.util.function.Function;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -69,6 +70,17 @@ public class Course {
 	public void removeStudent(Student student) {
 		this.getStudentSet().remove(student);
 		student.getCourseSet().remove(this);
+	}
+
+	public void removeAllStudents(Function<Student, Student> studentFunction) {
+		/**
+		 * Remove the course from every student that has the course scheduled.
+		 */
+		for (Student student : this.getStudentSet()) {
+			student.getCourseSet().remove(this);
+			studentFunction.apply(student);
+		}
+		this.getStudentSet().clear();
 	}
 
 	@Override

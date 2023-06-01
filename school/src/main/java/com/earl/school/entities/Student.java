@@ -2,6 +2,7 @@ package com.earl.school.entities;
 
 import java.math.BigDecimal;
 import java.util.Set;
+import java.util.function.Function;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -104,6 +105,17 @@ public class Student {
 	public void removeCourse(Course course) {
 		this.getCourseSet().remove(course);
 		course.getStudentSet().remove(this);
+	}
+
+	public void removeAllCourses(Function<Course, Course> courseFunction) {
+		/**
+		 * Remove the student from every course he/she enrolled in.
+		 */
+		for (Course course : this.getCourseSet()) {
+			course.getStudentSet().remove(this);
+			courseFunction.apply(course);
+		}
+		this.getCourseSet().clear();
 	}
 
 	public BigDecimal getTuitionBalance() {
