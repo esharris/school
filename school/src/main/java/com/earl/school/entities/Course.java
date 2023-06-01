@@ -66,6 +66,11 @@ public class Course {
 		student.getCourseSet().add(this);
 	}
 
+	public void removeStudent(Student student) {
+		this.getStudentSet().remove(student);
+		student.getCourseSet().remove(this);
+	}
+
 	@Override
 	public String toString() {
 		return "Course [id=" + id + ", name=" + name + "]";

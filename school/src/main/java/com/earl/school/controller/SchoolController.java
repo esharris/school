@@ -211,10 +211,8 @@ public class SchoolController {
 		Course course = getCourse(id);
 
 		if (course.getStudentSet().contains(student)) {
-			course.getStudentSet().remove(student);
-			Course savedCourse = courseRepository.save(course);
-
-			student.getCourseSet().remove(savedCourse);
+			course.removeStudent(student);
+			courseRepository.save(course);
 			studentRepository.save(student);
 			return ResponseEntity.noContent().build();
 		} else {
@@ -228,10 +226,8 @@ public class SchoolController {
 		Student student = getStudent(studentId);
 
 		if (student.getCourseSet().contains(course)) {
-			student.getCourseSet().remove(course);
-			Student savedStudent = studentRepository.save(student);
-
-			course.getStudentSet().remove(savedStudent);
+			student.removeCourse(course);
+			studentRepository.save(student);
 			courseRepository.save(course);
 			return ResponseEntity.noContent().build();
 		} else {

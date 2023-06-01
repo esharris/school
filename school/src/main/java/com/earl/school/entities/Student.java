@@ -101,6 +101,11 @@ public class Student {
 		course.getStudentSet().add(this);
 	}
 
+	public void removeCourse(Course course) {
+		this.getCourseSet().remove(course);
+		course.getStudentSet().remove(this);
+	}
+
 	public BigDecimal getTuitionBalance() {
 		return tuitionBalance;
 	}
