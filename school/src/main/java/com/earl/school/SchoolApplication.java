@@ -17,11 +17,15 @@ import com.earl.school.jpa.StudentRepository;
 @SpringBootApplication
 public class SchoolApplication {
 
-	@Autowired
-	private StudentFactory studentFactory;
+	private final StudentFactory studentFactory;
+
+	private final CourseFactory courseFactory;
 
 	@Autowired
-	private CourseFactory courseFactory;
+	public SchoolApplication(StudentFactory studentFactory, CourseFactory courseFactory) {
+		this.studentFactory = studentFactory;
+		this.courseFactory = courseFactory;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SchoolApplication.class, args);
