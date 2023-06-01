@@ -21,10 +21,14 @@ public class SchoolApplication {
 
 	private final CourseFactory courseFactory;
 
+	private final RelationshipManager relationshipManager;
+
 	@Autowired
-	public SchoolApplication(StudentFactory studentFactory, CourseFactory courseFactory) {
+	public SchoolApplication(StudentFactory studentFactory, CourseFactory courseFactory,
+			RelationshipManager relationshipManager) {
 		this.studentFactory = studentFactory;
 		this.courseFactory = courseFactory;
+		this.relationshipManager = relationshipManager;
 	}
 
 	public static void main(String[] args) {
@@ -58,9 +62,8 @@ public class SchoolApplication {
 //			courseRepository.save(course2b);
 //			studentRepository.save(student3a);
 
-			Course course2b = RelationshipManager.addCourse(studentRepository, courseRepository, student1a, course2a)
-					.course();
-			RelationshipManager.addStudent(courseRepository, studentRepository, course2b, student3a);
+			Course course2b = relationshipManager.addCourse(student1a, course2a).course();
+			relationshipManager.addStudent(course2b, student3a);
 		};
 
 	}

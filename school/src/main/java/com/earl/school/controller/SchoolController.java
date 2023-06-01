@@ -37,22 +37,30 @@ import com.earl.school.jpa.StudentRepository;
 public class SchoolController {
 
 	private final StudentRepository studentRepository;
+
 	private final CourseRepository courseRepository;
+
+	private final RelationshipManager relationshipManager;
+
 	private final RepresentationModelAssembler<Student, EntityModel<Student>> studentModelAssembler;
+
 	private final RepresentationModelAssembler<Course, EntityModel<Course>> courseModelAssembler;
 
 	private final StudentFactory studentFactory;
+
 	private final CourseFactory courseFactory;
 
 	@Autowired
 	public SchoolController(StudentRepository studentRepository, //
 			CourseRepository courseRepository, //
+			RelationshipManager relationshipManager, //
 			RepresentationModelAssembler<Student, EntityModel<Student>> studentModelAssembler,
 			RepresentationModelAssembler<Course, EntityModel<Course>> courseModelAssembler,
 			StudentFactory studentFactory, CourseFactory courseFactory) {
 		super();
 		this.studentRepository = studentRepository;
 		this.courseRepository = courseRepository;
+		this.relationshipManager = relationshipManager;
 		this.studentModelAssembler = studentModelAssembler;
 		this.courseModelAssembler = courseModelAssembler;
 		this.studentFactory = studentFactory;
@@ -130,7 +138,7 @@ public class SchoolController {
 	public ResponseEntity<Student> addCourse(@PathVariable String studentId, @PathVariable int id) {
 		Student student = getStudent(studentId);
 		Course course = getCourse(id);
-		RelationshipManager.addCourse(studentRepository, courseRepository, student, course);
+		relationshipManager.addCourse(student, course);
 		String locationString = ServletUriComponentsBuilder.fromCurrentRequest().path("").build().toUriString();
 		int i = locationString.lastIndexOf("/");
 		URI location = URI.create(locationString.substring(0, i));
@@ -141,7 +149,7 @@ public class SchoolController {
 	public ResponseEntity<Course> addStudent(@PathVariable int id, @PathVariable String studentId) {
 		Course course = getCourse(id);
 		Student student = getStudent(studentId);
-		RelationshipManager.addStudent(courseRepository, studentRepository, course, student);
+		relationshipManager.addStudent(course, student);
 		String locationString = ServletUriComponentsBuilder.fromCurrentRequest().path("").build().toUriString();
 		int i = locationString.lastIndexOf("/");
 		URI location = URI.create(locationString.substring(0, i));
