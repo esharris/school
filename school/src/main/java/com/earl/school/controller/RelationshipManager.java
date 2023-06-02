@@ -10,4 +10,8 @@ public interface RelationshipManager {
 
 	StudentCoursePair addStudent(Course course, Student student);
 
+	public void removeCourse(Student student, Course course);
+
+	public void removeStudent(Course course, Student student);
+
 }

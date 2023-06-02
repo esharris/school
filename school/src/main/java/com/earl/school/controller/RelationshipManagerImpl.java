@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.earl.school.controller.dtos.StudentCoursePair;
 import com.earl.school.controller.exceptions.LinkAlreadyThereException;
+import com.earl.school.controller.exceptions.LinkNonexistentException;
 import com.earl.school.entities.Course;
 import com.earl.school.entities.Student;
 import com.earl.school.jpa.CourseRepository;
@@ -40,6 +41,27 @@ public class RelationshipManagerImpl implements RelationshipManager {
 		} else {
 			throw new LinkAlreadyThereException(student.getStudentId(), course.getId());
 		}
+	}
 
+	@Override
+	public void removeCourse(Student student, Course course) {
+		if (student.getCourseSet().contains(course)) {
+			student.removeCourse(course);
+			studentRepository.save(student);
+			courseRepository.save(course);
+		} else {
+			throw new LinkNonexistentException(student.getStudentId(), course.getId());
+		}
+	}
+
+	@Override
+	public void removeStudent(Course course, Student student) {
+		if (course.getStudentSet().contains(student)) {
+			course.removeStudent(student);
+			courseRepository.save(course);
+			studentRepository.save(student);
+		} else {
+			throw new LinkNonexistentException(student.getStudentId(), course.getId());
+		}
 	}
 }

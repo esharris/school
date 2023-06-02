@@ -24,7 +24,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.earl.school.controller.dtos.StudentAddInput;
 import com.earl.school.controller.dtos.StudentUpdateInput;
 import com.earl.school.controller.exceptions.CourseNotFoundException;
-import com.earl.school.controller.exceptions.LinkNonexistentException;
 import com.earl.school.controller.exceptions.StudentNotFoundException;
 import com.earl.school.entities.Course;
 import com.earl.school.entities.Student;
@@ -194,33 +193,21 @@ public class SchoolController {
 	}
 
 	@DeleteMapping("students/{studentId}/courses/{id}")
-	public ResponseEntity<Course> removeStudentFromCourse(@PathVariable String studentId, @PathVariable int id) {
+	public ResponseEntity<Course> removeStudent(@PathVariable String studentId, @PathVariable int id) {
 		Student student = getStudent(studentId);
 		Course course = getCourse(id);
 
-		if (course.getStudentSet().contains(student)) {
-			course.removeStudent(student);
-			courseRepository.save(course);
-			studentRepository.save(student);
-			return ResponseEntity.noContent().build();
-		} else {
-			throw new LinkNonexistentException(studentId, id);
-		}
+		relationshipManager.removeStudent(course, student);
+		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("courses/{id}/students/{studentId}")
-	public ResponseEntity<Student> removeCourseFromStudent(@PathVariable int id, @PathVariable String studentId) {
+	public ResponseEntity<Student> removeCourse(@PathVariable int id, @PathVariable String studentId) {
 		Course course = getCourse(id);
 		Student student = getStudent(studentId);
 
-		if (student.getCourseSet().contains(course)) {
-			student.removeCourse(course);
-			studentRepository.save(student);
-			courseRepository.save(course);
-			return ResponseEntity.noContent().build();
-		} else {
-			throw new LinkNonexistentException(studentId, id);
-		}
+		relationshipManager.removeCourse(student, course);
+		return ResponseEntity.noContent().build();
 	}
 
 	private Student getStudent(String studentId) {
