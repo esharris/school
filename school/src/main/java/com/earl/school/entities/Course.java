@@ -63,7 +63,7 @@ public class Course {
 	}
 
 	public void addStudent(Student student) {
-		this.studentSet.add(student);
+		this.getStudentSet().add(student);
 		student.getCourseSet().add(this);
 	}
 
