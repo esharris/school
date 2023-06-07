@@ -64,4 +64,16 @@ public class RelationshipManagerImpl implements RelationshipManager {
 			throw new LinkNonexistentException(student.getStudentId(), course.getId());
 		}
 	}
+
+	@Override
+	public void removeCourse(Course course) {
+		course.removeAllStudents((student) -> studentRepository.save(student));
+		courseRepository.delete(course);
+	}
+
+	@Override
+	public void removeStudent(Student student) {
+		student.removeAllCourses((course) -> courseRepository.save(course));
+		studentRepository.delete(student);
+	}
 }

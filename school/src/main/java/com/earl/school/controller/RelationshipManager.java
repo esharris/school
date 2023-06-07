@@ -14,4 +14,7 @@ public interface RelationshipManager {
 
 	public void removeStudent(Course course, Student student);
 
+	public void removeCourse(Course course);
+
+	public void removeStudent(Student student);
 }

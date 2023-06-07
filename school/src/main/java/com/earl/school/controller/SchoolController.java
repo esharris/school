@@ -179,16 +179,14 @@ public class SchoolController {
 	@DeleteMapping("students/{studentId}")
 	public ResponseEntity<Student> deleteStudent(@PathVariable String studentId) {
 		Student student = getStudent(studentId);
-		student.removeAllCourses((course) -> courseRepository.save(course));
-		studentRepository.delete(student);
+		relationshipManager.removeStudent(student);
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("courses/{id}")
 	public ResponseEntity<Course> deleteCourse(@PathVariable int id) {
 		Course course = getCourse(id);
-		course.removeAllStudents((student) -> studentRepository.save(student));
-		courseRepository.delete(course);
+		relationshipManager.removeCourse(course);
 		return ResponseEntity.noContent().build();
 	}
 
