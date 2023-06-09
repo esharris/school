@@ -190,19 +190,19 @@ public class SchoolController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@DeleteMapping("students/{studentId}/courses/{id}")
-	public ResponseEntity<Course> removeStudent(@PathVariable String studentId, @PathVariable int id) {
-		Student student = getStudent(studentId);
+	@DeleteMapping("courses/{id}/students/{studentId}")
+	public ResponseEntity<Course> removeStudent(@PathVariable int id, @PathVariable String studentId) {
 		Course course = getCourse(id);
+		Student student = getStudent(studentId);
 
 		relationshipManager.removeStudent(course, student);
 		return ResponseEntity.noContent().build();
 	}
 
-	@DeleteMapping("courses/{id}/students/{studentId}")
-	public ResponseEntity<Student> removeCourse(@PathVariable int id, @PathVariable String studentId) {
-		Course course = getCourse(id);
+	@DeleteMapping("students/{studentId}/courses/{id}")
+	public ResponseEntity<Student> removeCourse(@PathVariable String studentId, @PathVariable int id) {
 		Student student = getStudent(studentId);
+		Course course = getCourse(id);
 
 		relationshipManager.removeCourse(student, course);
 		return ResponseEntity.noContent().build();
