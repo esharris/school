@@ -16,8 +16,8 @@ public class Course {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-
 	private long id;
+
 	private String name;
 
 	@ManyToMany(targetEntity = Student.class)
