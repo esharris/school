@@ -24,7 +24,7 @@ public class Student {
 	private String studentId;
 	private String firstName;
 	private String lastName;
-	private int gradeYear;
+	private Integer gradeYear;
 
 	@ManyToMany(targetEntity = Course.class)
 	@JsonIgnore
@@ -36,7 +36,7 @@ public class Student {
 
 	}
 
-	public Student(String studentId, String firstName, String lastName, int gradeYear, Set<Course> courseSet,
+	public Student(String studentId, String firstName, String lastName, Integer gradeYear, Set<Course> courseSet,
 			BigDecimal tuitionBalance) {
 		super();
 		this.studentId = studentId;
@@ -83,11 +83,11 @@ public class Student {
 		this.lastName = lastName;
 	}
 
-	public int getGradeYear() {
+	public Integer getGradeYear() {
 		return gradeYear;
 	}
 
-	public void setGradeYear(int gradeYear) {
+	public void setGradeYear(Integer gradeYear) {
 		this.gradeYear = gradeYear;
 	}
 

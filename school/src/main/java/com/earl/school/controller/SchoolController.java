@@ -14,6 +14,7 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -162,6 +163,7 @@ public class SchoolController {
 		student.setFirstName(studentUpdateInput.firstName());
 		student.setLastName(studentUpdateInput.lastName());
 		student.setGradeYear(studentUpdateInput.gradeYear());
+		student.setTuitionBalance(studentUpdateInput.tuitionBalance());
 		studentRepository.save(student);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("").build().toUri();
 		return ResponseEntity.created(location).build();
@@ -172,6 +174,27 @@ public class SchoolController {
 		Course course = getCourse(id);
 		course.setName(newCourseName);
 		courseRepository.save(course);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("").build().toUri();
+		return ResponseEntity.created(location).build();
+	}
+
+	@PatchMapping("/students/{studentId}")
+	public ResponseEntity<Student> partiallyReplaceStudent(@PathVariable String studentId,
+			@RequestBody StudentUpdateInput studentUpdateInput) {
+		Student student = getStudent(studentId);
+		if (studentUpdateInput.firstName() != null) {
+			student.setFirstName(studentUpdateInput.firstName());
+		}
+		if (studentUpdateInput.lastName() != null) {
+			student.setLastName(studentUpdateInput.lastName());
+		}
+		if (studentUpdateInput.gradeYear() != null) {
+			student.setGradeYear(studentUpdateInput.gradeYear());
+		}
+		if (studentUpdateInput.tuitionBalance() != null) {
+			student.setTuitionBalance(studentUpdateInput.tuitionBalance());
+		}
+		studentRepository.save(student);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("").build().toUri();
 		return ResponseEntity.created(location).build();
 	}

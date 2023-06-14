@@ -1,5 +1,7 @@
 package com.earl.school.controller.dtos;
 
-public record StudentUpdateInput(String firstName, String lastName, int gradeYear) {
+import java.math.BigDecimal;
+
+public record StudentUpdateInput(String firstName, String lastName, Integer gradeYear, BigDecimal tuitionBalance) {
 
 }
