@@ -118,7 +118,7 @@ public class SchoolController {
 	@PostMapping("/students")
 	public ResponseEntity<Student> newStudent(@RequestBody StudentAddInput studentAddInput) {
 		Student student = studentFactory.create(studentAddInput.firstName(), studentAddInput.lastName(),
-				studentAddInput.gradeYear());
+				studentAddInput.birthDate(), studentAddInput.gradeYear());
 		Student savedStudent = studentRepository.save(student);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{studentId}")
 				.buildAndExpand(savedStudent.getStudentId()).toUri();
@@ -162,6 +162,7 @@ public class SchoolController {
 		Student student = getStudent(studentId);
 		student.setFirstName(studentUpdateInput.firstName());
 		student.setLastName(studentUpdateInput.lastName());
+		student.setBirthDate(studentUpdateInput.birthDate());
 		student.setGradeYear(studentUpdateInput.gradeYear());
 		student.setTuitionBalance(studentUpdateInput.tuitionBalance());
 		studentRepository.save(student);
@@ -187,6 +188,9 @@ public class SchoolController {
 		}
 		if (studentUpdateInput.lastName() != null) {
 			student.setLastName(studentUpdateInput.lastName());
+		}
+		if (studentUpdateInput.birthDate() != null) {
+			student.setBirthDate(studentUpdateInput.birthDate());
 		}
 		if (studentUpdateInput.gradeYear() != null) {
 			student.setGradeYear(studentUpdateInput.gradeYear());

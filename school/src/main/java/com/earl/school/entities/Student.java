@@ -1,6 +1,7 @@
 package com.earl.school.entities;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -12,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.validation.constraints.Past;
 
 @Entity
 public class Student {
@@ -24,6 +26,8 @@ public class Student {
 	private String studentId;
 	private String firstName;
 	private String lastName;
+	@Past(message = "Birth Date should be in the past")
+	private LocalDate birthDate;
 	private Integer gradeYear;
 
 	@ManyToMany(targetEntity = Course.class)
@@ -36,12 +40,13 @@ public class Student {
 
 	}
 
-	public Student(String studentId, String firstName, String lastName, Integer gradeYear, Set<Course> courseSet,
-			BigDecimal tuitionBalance) {
+	public Student(String studentId, String firstName, String lastName, LocalDate birthDate, Integer gradeYear,
+			Set<Course> courseSet, BigDecimal tuitionBalance) {
 		super();
 		this.studentId = studentId;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.birthDate = birthDate;
 		this.gradeYear = gradeYear;
 		this.courseSet = courseSet;
 		this.tuitionBalance = tuitionBalance;
@@ -81,6 +86,14 @@ public class Student {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public LocalDate getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(LocalDate birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public Integer getGradeYear() {
@@ -131,7 +144,7 @@ public class Student {
 	@Override
 	public String toString() {
 		return "Student [id=" + id + ", studentID=" + studentId + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", gradeYear=" + gradeYear + ", tuitionBalance=" + tuitionBalance + "]";
+				+ ", birthDate=" + birthDate + ", gradeYear=" + gradeYear + ", tuitionBalance=" + tuitionBalance + "]";
 	}
 
 }

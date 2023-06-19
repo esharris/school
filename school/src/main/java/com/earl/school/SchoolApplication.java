@@ -1,5 +1,7 @@
 package com.earl.school;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -38,9 +40,9 @@ public class SchoolApplication {
 	@Bean
 	CommandLineRunner demo(StudentRepository studentRepository, CourseRepository courseRepository) {
 		return args -> {
-			Student student1 = studentFactory.create("Earl", "Harris", 3);
-			Student student2 = studentFactory.create("Daniella", "Hines", 2);
-			Student student3 = studentFactory.create("Joe", "Welch", 2);
+			Student student1 = studentFactory.create("Earl", "Harris", LocalDate.of(1962, 6, 3), 3);
+			Student student2 = studentFactory.create("Daniella", "Hines", LocalDate.of(1964, 5, 4), 2);
+			Student student3 = studentFactory.create("Joe", "Welch", LocalDate.of(1964, 11, 30), 2);
 
 			Student student1a = studentRepository.save(student1);
 			studentRepository.save(student2);
