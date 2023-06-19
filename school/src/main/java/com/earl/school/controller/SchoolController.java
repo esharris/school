@@ -33,6 +33,8 @@ import com.earl.school.entities.factories.StudentFactory;
 import com.earl.school.jpa.CourseRepository;
 import com.earl.school.jpa.StudentRepository;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class SchoolController {
 
@@ -116,7 +118,7 @@ public class SchoolController {
 	}
 
 	@PostMapping("/students")
-	public ResponseEntity<Student> newStudent(@RequestBody StudentAddInput studentAddInput) {
+	public ResponseEntity<Student> newStudent(@Valid @RequestBody StudentAddInput studentAddInput) {
 		Student student = studentFactory.create(studentAddInput.firstName(), studentAddInput.lastName(),
 				studentAddInput.birthDate(), studentAddInput.gradeYear());
 		Student savedStudent = studentRepository.save(student);
@@ -158,7 +160,7 @@ public class SchoolController {
 
 	@PutMapping("/students/{studentId}")
 	public ResponseEntity<Student> replaceStudent(@PathVariable String studentId,
-			@RequestBody StudentUpdateInput studentUpdateInput) {
+			@Valid @RequestBody StudentUpdateInput studentUpdateInput) {
 		Student student = getStudent(studentId);
 		student.setFirstName(studentUpdateInput.firstName());
 		student.setLastName(studentUpdateInput.lastName());
@@ -181,7 +183,7 @@ public class SchoolController {
 
 	@PatchMapping("/students/{studentId}")
 	public ResponseEntity<Student> partiallyReplaceStudent(@PathVariable String studentId,
-			@RequestBody StudentUpdateInput studentUpdateInput) {
+			@Valid @RequestBody StudentUpdateInput studentUpdateInput) {
 		Student student = getStudent(studentId);
 		if (studentUpdateInput.firstName() != null) {
 			student.setFirstName(studentUpdateInput.firstName());
